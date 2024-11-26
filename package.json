@@ -10,11 +10,13 @@
     "firebase-tools": "^13.26.0",
     "react": "^18.3.1",
     "react-dom": "^18.3.1",
+    "react-router-dom": "^7.0.1",
     "react-scripts": "5.0.1",
     "web-vitals": "^2.1.4"
   },
   "scripts": {
-    "app": "NODE_ENV=development react-scripts start",
+    "app": "set NODE_ENV=development && react-scripts start",
+    "app2": "NODE_ENV=development react-scripts start",
     "srv": "firebase emulators:start",
     "build": "react-scripts build",
     "test": "react-scripts test",
