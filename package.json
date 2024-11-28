@@ -15,9 +15,9 @@
     "web-vitals": "^2.1.4"
   },
   "scripts": {
-    "app": "set NODE_ENV=development && react-scripts start",
-    "app2": "NODE_ENV=development react-scripts start",
-    "srv": "firebase emulators:start",
+    "start": "react-scripts start",
+    "prod": "env-cmd -f .env.production react-scripts start",
+    "emulators": "firebase emulators:start",
     "build": "react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject"
@@ -39,5 +39,8 @@
       "last 1 firefox version",
       "last 1 safari version"
     ]
+  },
+  "devDependencies": {
+    "env-cmd": "^10.1.0"
   }
 }
