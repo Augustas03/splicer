@@ -66,7 +66,7 @@ function Login() {
             }
 
             //Upon success navigate to home screen
-            navigate('/home');
+            navigate('/');
         }catch(err){
             //Throw Firebase error messages
             const errorMessages = {

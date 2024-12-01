@@ -120,7 +120,7 @@ function Signup(){
             await sendEmailVerification(user)
             alert("Success! Please verify email before logging in")
 
-            navigate('/login')
+            navigate('users/login')
 
         }catch(err){
             console.error("Full error object:", err) // Log the full error

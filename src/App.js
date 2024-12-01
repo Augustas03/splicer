@@ -1,18 +1,25 @@
-//import ComponentX from './components/ComponentX'
-import React, {useState, useEffect} from 'react';
+import {BrowserRouter as Router, Routes, Route, Navigate} from 'react-router-dom';
 import Home from './pages/Home'
 import Login from './components/Login'
 import Signup from './components/Signup'
-import {BrowserRouter as Router} from 'react-router-dom';
-import {Routes, Route} from 'react-router-dom';
+import Header from './pages/Header'
+import UsersLayout from './layouts/UsersLayout'
+
 function App() {
   return (
     <Router>
       <div>
         <section>
+            <Header />
           <Routes>
-            <Route path='/signup' element={<Signup/>}></Route>
-            <Route path ='/login' element={<Login/>}></Route>
+            <Route path="/" element={<Home />} />
+            <Route path="/users" element={<UsersLayout/>}>
+              {/* Default redirect to login if in '/users' route by itself */}
+              <Route index element={<Navigate to="/" replace/>}/>
+              {/* Remove the /users/ prefix from child routes */}
+              <Route path="login" element={<Login/>} />
+              <Route path="signup" element={<Signup/>} />
+            </Route>
           </Routes>
         </section>
       </div>
