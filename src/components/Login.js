@@ -66,6 +66,7 @@ function Login() {
             }
 
             //Upon success navigate to home screen
+            console.log(userCredentials.user.uid, 'User logged in');
             navigate('/');
         }catch(err){
             //Throw Firebase error messages
@@ -124,7 +125,7 @@ function Login() {
                 </button>
             </form>
 
-            <NavLink to="/signup">Need an account? Sign up</NavLink>
+            <NavLink to="/users/signup">Need an account? Sign up</NavLink>
         </section>
     </main>)
 }
