@@ -5,7 +5,7 @@ function Home(){
         <h1>Slice the Wave</h1>
         <p>Edit your audio with ease</p>
         <div>
-            <button onClick={UploadFile}>Upload</button>
+            <UploadFile/>
         </div>
     </div>
     )
