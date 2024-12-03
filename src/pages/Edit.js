@@ -1,4 +1,4 @@
-import Audio from './components/Audio'
+import Audio from '../components/Audio'
 const Edit = () =>{
     return(
         <div>

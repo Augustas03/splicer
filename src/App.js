@@ -4,6 +4,7 @@ import Login from './components/Login'
 import Signup from './components/Signup'
 import Header from './pages/Header'
 import UsersLayout from './layouts/UsersLayout'
+import Edit from './pages/Edit'
 
 function App() {
   return (
@@ -20,6 +21,7 @@ function App() {
               <Route path="login" element={<Login/>} />
               <Route path="signup" element={<Signup/>} />
             </Route>
+            <Route path="edit" element={<Edit/>} />
           </Routes>
         </section>
       </div>
