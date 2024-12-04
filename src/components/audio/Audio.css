@@ -1,0 +1,68 @@
+.edit {
+  background: #191b28;
+  min-height: 100vh;
+}
+
+.player-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding-top: 4rem;
+}
+
+.player-box {
+  height: 32rem;
+  width: 45vw;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  border-radius: 1.1rem;
+  background: #191b28;
+  box-shadow: inset 11px 11px 22px #0a0b10, inset -11px -11px 22px #282b40;
+  padding: 2rem;
+}
+
+
+.wave-container {
+    width: 100%;
+    margin-bottom: 2rem; 
+}
+
+
+.controls-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 1rem;
+  width: 100%;
+}
+
+.control-button {
+  font-size: 1.5rem;
+  color: white;
+  margin: 0 0.5rem;
+  cursor: pointer;
+  background: none;
+  border: none;
+  transition: transform 0.2s;
+}
+
+.control-button:hover {
+  transform: scale(1.1);
+}
+
+.play-button,
+.stop-button {
+  background: #191b28;
+  border-radius: 2rem;
+  padding: 0.8rem;
+  box-shadow: inset 11px 11px 22px #0a0b10, inset -11px -11px 22px #282b40;
+}
+
+@media screen and (max-width: 998px) {
+  .player-box {
+      height: 32rem;
+      width: 80vw;
+  }
+}
