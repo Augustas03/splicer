@@ -11,6 +11,7 @@
 }
 
 .player-box {
+  position: relative;
   height: 32rem;
   width: 45vw;
   display: flex;
@@ -54,6 +55,16 @@
 
 .play-button,
 .stop-button {
+  background: #191b28;
+  border-radius: 2rem;
+  padding: 0.8rem;
+  box-shadow: inset 11px 11px 22px #0a0b10, inset -11px -11px 22px #282b40;
+}
+
+.back-button {
+  position: absolute;
+  top: 2rem;
+  left: 2rem;
   background: #191b28;
   border-radius: 2rem;
   padding: 0.8rem;

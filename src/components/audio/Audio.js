@@ -1,5 +1,6 @@
 import {useEffect, useRef, useContext} from 'react';
 import {FileContext} from '../../contexts/Context';
+import { useNavigate } from 'react-router-dom';
 import WaveSurfer from 'wavesurfer.js';
 import './Audio.css';
 
@@ -7,10 +8,12 @@ import{
     BsSkipBackward,
     BsSkipForward,
     BsFillStopFill,
-    BsFillPlayFill
+    BsFillPlayFill,
+    BsArrowLeft
 } from "react-icons/bs"
  
 const Audio = () =>{
+    const navigate = useNavigate();
     //this is for rendering
     const waveFormRef = useRef(null)
     //this is for storing
@@ -72,12 +75,22 @@ const Audio = () =>{
             waveSurferRef.current.skip(-2)
         }
     }
+    
+    const handleBackNav = () =>{
+        navigate('/')
+    }
 
 
 
     return (
         <div className="player-container">
         <div className="player-box">
+            <button 
+            onClick={handleBackNav}
+            className='control-button back-button'
+            >
+            <BsArrowLeft/>
+            </button>
             <div ref={waveFormRef} className="wave-container">
             </div>
             <div className="controls-container">
