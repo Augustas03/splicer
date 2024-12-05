@@ -13,7 +13,7 @@ import{
     BsFillStopFill,
     BsFillPlayFill,
     BsArrowLeft,
-    BsArrowCounterclockwise
+    BsPauseFill
 } from "react-icons/bs"
  
 const Audio = () =>{
@@ -48,23 +48,29 @@ const Audio = () =>{
             //use DOM element for rendering container
             container: waveFormRef.current,
             waveColor: '#34374B',
-            progressColor: '#F90',
-            dragToSeek: true,
+            progressColor: '#F97316', 
+            cursorColor: '#9CA3AF', 
+            dragToSeek: true,        
+            interact: true,          
             width: '100%',
-            height: 92,
+            height: 80,
             hideScrollbar: true,
             normalize: true,
-            barWidth: 3,        
-            barGap: 3,          
-            barHeight: 1,        
-            barRadius: 3,        
-            padding: 0,
+            barWidth: 2,      
+            barGap: 2,      
+            barHeight: 0.8,    
+            barRadius: 2,     
+            padding: 4,  
+            cursorWidth: 2,     
             plugins: [
                 TimelinePlugin.create({
                     container: timelineRef.current,
-                    primaryColor: '#666',
-                    primaryFontColor: '#888',
-                    secondaryFontColor: '#444',
+                    primaryColor: '#9CA3AF',
+                    secondaryColor: '#4B5563',
+                    primaryFontColor: '#9CA3AF',
+                    secondaryFontColor: '#4B5563',
+                    height: 20,
+                    notchPercentHeight: 90
                 }),
                 RegionsPlugin.create({
                     dragSelection: false,
@@ -139,17 +145,21 @@ const Audio = () =>{
             >
             <BsArrowLeft/>
             </button>
-            <div ref={waveFormRef} className="wave-container">
-            </div>
+            <div ref={waveFormRef} className="wave-container"></div>
+            <div ref={timelineRef} className="timeline-container"></div>
+            <div className="time-display">
+                    <span>{currentTime}</span>
+                    <span>{duration}</span>
+                </div>
             <div className="controls-container">
                 <button onClick={handleSkipBack} className="control-button">
                     <BsSkipBackward/>
                 </button>
                 <button onClick={handlePlayPause} className="control-button play-button">
-                    {isPlaying ? <BsFillStopFill/> : <BsFillPlayFill/>}
+                    {isPlaying ? <BsPauseFill/> : <BsFillPlayFill/>}
                 </button>
                 <button onClick={handleStop} className="control-button stop-button">
-                    < BsArrowCounterclockwise/>
+                    < BsFillStopFill/>
                 </button>
                 <button onClick={handleSkipForward} className="control-button">
                     <BsSkipForward/>
