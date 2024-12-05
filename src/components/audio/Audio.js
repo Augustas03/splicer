@@ -6,7 +6,8 @@ import TimelinePlugin from 'wavesurfer.js/dist/plugin/wavesurfer.timeline.min.js
 import RegionsPlugin from 'wavesurfer.js/dist/plugin/wavesurfer.regions.min.js';
 
 import './Audio.css';
-import {
+ 
+import{
     BsSkipBackward,
     BsSkipForward,
     BsFillStopFill,
@@ -19,20 +20,17 @@ import {
 // Main Audio component for rendering waveform visualization and audio controls
 const Audio = () =>{
     const navigate = useNavigate();
-    // Ref for the DOM element where waveform will be rendered
-    const waveFormRef = useRef(null);
-    // Ref to store the WaveSurfer instance
-    const waveSurferRef = useRef(null);
-    // Ref for timeline container
+    //this is for rendering
+    const waveFormRef = useRef(null)
+    //this is for storing
+    const waveSurferRef = useRef(null)
     const timelineRef = useRef(null);
 
-    // State management for player controls and time display
     const [isPlaying, setIsPlaying] = useState(false);
     const [currentTime, setCurrentTime] = useState('00:00');
     const [duration, setDuration] = useState('00:00');
 
-    // Context for managing audio file URL
-    const {fileURL, setFileURL} = useContext(FileContext);
+    const {fileURL, setFileURL} = useContext(FileContext)
    
     // Helper function to format time in MM:SS format
     const formatTime = (seconds) => {
@@ -42,7 +40,13 @@ const Audio = () =>{
     };
 
     useEffect(() =>{
-        // Initialize timeline plugin with custom styling
+        //we are using useRef to avoid re-rendering each time a change occurs
+        //in component. Imagine user is playing with the waveform and
+        //component re-renders due to parent update,state change etc
+        //could cause lots of issues with play/pause clicking etc.
+ 
+        //.current gives direct access to whatever is stored in the ref
+        //so entire wavesurfer instance will all properties and methods
         const timeline = TimelinePlugin.create({
             container: timelineRef.current,
             primaryColor: '#9CA3AF',
@@ -57,6 +61,7 @@ const Audio = () =>{
 
         // Create WaveSurfer instance with configuration
         waveSurferRef.current = WaveSurfer.create({
+            //use DOM element for rendering container
             container: waveFormRef.current,
             waveColor: '#34374B',
             progressColor: '#F97316',
@@ -122,18 +127,17 @@ const Audio = () =>{
         };
     }, [fileURL]);
     
-    // Handler functions for player controls
-    const handleStop = () =>{
+    const handleStop= () =>{
         if(waveSurferRef.current){
-            waveSurferRef.current.stop();
+            waveSurferRef.current.stop()
         }
-    };
+    }
 
     const handlePlayPause =() => {
         if(waveSurferRef.current){
-            waveSurferRef.current.playPause();
+            waveSurferRef.current.playPause()
         }
-    };
+    }
 
     // Skip forward 2 seconds
     const handleSkipForward = () =>{
@@ -141,20 +145,20 @@ const Audio = () =>{
             const currentTime = waveSurferRef.current.getCurrentTime();
             waveSurferRef.current.seekTo((currentTime + 2) / waveSurferRef.current.getDuration());
         }
-    };
-
-    // Skip backward 2 seconds
+    }
     const handleSkipBack = () =>{
         if(waveSurferRef.current){
             const currentTime = waveSurferRef.current.getCurrentTime();
             waveSurferRef.current.seekTo(Math.max(0, (currentTime - 2)) / waveSurferRef.current.getDuration());
         }
-    };
+    }
    
     // Navigate back to home page
     const handleBackNav = () =>{
-        navigate('/');
-    };
+        navigate('/')
+    }
+ 
+ 
 
     return (
         <div className="player-container">
@@ -182,7 +186,7 @@ const Audio = () =>{
                         {isPlaying ? <BsPauseFill/> : <BsFillPlayFill/>}
                     </button>
                     <button onClick={handleStop} className="control-button stop-button">
-                        <BsFillStopFill/>
+                    < BsFillStopFill/>
                     </button>
                     <button className="control-button trim-button">
                         <BsScissors/>
@@ -194,6 +198,5 @@ const Audio = () =>{
             </div>
         </div>
     );
-};
-
+}
 export default Audio;
