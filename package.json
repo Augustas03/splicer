@@ -14,7 +14,7 @@
     "react-router-dom": "^7.0.1",
     "react-scripts": "5.0.1",
     "tailwindcss": "^3.4.16",
-    "wavesurfer.js": "^7.8.10",
+    "wavesurfer.js": "^6.6.3",
     "web-vitals": "^2.1.4"
   },
   "scripts": {
