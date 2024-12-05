@@ -75,7 +75,8 @@
 }
 
 .play-button,
-.stop-button {
+.stop-button,
+.trim-button {
   background: #191b28;
   border-radius: 2rem;
   padding: 0.8rem;

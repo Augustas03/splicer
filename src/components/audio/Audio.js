@@ -4,6 +4,8 @@ import { useNavigate } from 'react-router-dom';
 import WaveSurfer from 'wavesurfer.js';
 import TimelinePlugin from 'wavesurfer.js/dist/plugins/timeline.js';
 import RegionsPlugin from 'wavesurfer.js/dist/plugins/regions.js';
+import Hover from 'wavesurfer.js/dist/plugins/hover.esm.js'
+
  
 import './Audio.css';
  
@@ -13,7 +15,8 @@ import{
     BsFillStopFill,
     BsFillPlayFill,
     BsArrowLeft,
-    BsPauseFill
+    BsPauseFill,
+    BsScissors
 } from "react-icons/bs"
  
 const Audio = () =>{
@@ -27,8 +30,8 @@ const Audio = () =>{
     const [isPlaying, setIsPlaying] = useState(false);
     const [currentTime, setCurrentTime] = useState('00:00');
     const [duration, setDuration] = useState('00:00');
- 
-    const {fileURL} = useContext(FileContext)
+
+    const {fileURL, setFileURL} = useContext(FileContext)
    
     const formatTime = (seconds) => {
         const minutes = Math.floor(seconds / 60);
@@ -70,12 +73,18 @@ const Audio = () =>{
                     primaryFontColor: '#9CA3AF',
                     secondaryFontColor: '#4B5563',
                     height: 20,
-                    notchPercentHeight: 90
                 }),
                 RegionsPlugin.create({
-                    dragSelection: false,
-                    slop: 5
-                })
+                    dragSelection: true,
+                    slop: 5,
+                }),
+                Hover.create({
+                    lineColor: '#9CA3AF',
+                    lineWidth: 2,
+                    labelBackground: '#34374B',
+                    labelColor: '#fff',
+                    labelSize: '11px',
+                    }),
             ]
         });
  
@@ -92,7 +101,7 @@ const Audio = () =>{
                 start: waveSurferRef.current.getDuration() * 0.3,
                 end: waveSurferRef.current.getDuration() * 0.7,
                 color: 'rgba(66, 135, 245, 0.2)',
-                drag: false,
+                drag: true,
                 resize: true
             });
         });
@@ -106,7 +115,7 @@ const Audio = () =>{
  
         return () => waveSurferRef.current.destroy()
     }, [fileURL]);
- 
+    
     const handleStop= () =>{
         if(waveSurferRef.current){
             waveSurferRef.current.stop()
@@ -161,6 +170,9 @@ const Audio = () =>{
                 <button onClick={handleStop} className="control-button stop-button">
                     < BsFillStopFill/>
                 </button>
+                <button className="control-button trim-button">
+                        <BsScissors/>
+                    </button>
                 <button onClick={handleSkipForward} className="control-button">
                     <BsSkipForward/>
                 </button>
