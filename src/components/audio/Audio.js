@@ -127,6 +127,60 @@ const Audio = () =>{
         };
     }, [fileURL]);
     
+    const handleTrim = () =>{
+        if (waveSurferRef.current) {
+			// get start and end points of the selected region
+			const trimRegion = waveSurferRef.current.regions.list[
+                Object.keys(waveSurferRef.current.regions.list)[0]
+            ];
+            //.start and .end gives us start(seconds.ms) and end(seconds.ms) to trim
+            console.log(trimRegion)
+            if (trimRegion) {
+				const start = trimRegion.start;
+				const end = trimRegion.end;
+
+                const originalBuffer = waveSurferRef.current.backend.buffer;
+                //gets duration of the cut
+                console.log(originalBuffer)
+                
+                const trimDuration = end - start;
+                const newSampleLength = Math.floor(trimDuration * originalBuffer.sampleRate);
+
+            //create a new empty audio buffer with the same properties as original
+            //ac-audiocontext
+                const newBuffer = waveSurferRef.current.backend.ac.createBuffer(
+                    originalBuffer.numberOfChannels,  //keep same number of channels 2 for stereo
+                    newSampleLength,            //original length
+                    originalBuffer.sampleRate         //orginal sample rate
+                );
+
+                //memory allocation to do with samples
+                const trimmedData = new Float32Array(newSampleLength);
+                
+                // Copy just the trimmed section for each channel
+                for (let channel = 0; channel < originalBuffer.numberOfChannels; channel++) {
+                    const startIndex = Math.floor(start * originalBuffer.sampleRate);
+                    originalBuffer.copyFromChannel(trimmedData, channel, startIndex);
+                    newBuffer.copyToChannel(trimmedData, channel);
+                }
+
+                // Finally, load this new trimmed audio into WaveSurfer to display and play
+                waveSurferRef.current.loadDecodedBuffer(newBuffer);
+
+                //may need to refactor destroy and re-adding of region. 
+                waveSurferRef.current.regions.destroy()
+
+                waveSurferRef.current.addRegion({
+                    start: waveSurferRef.current.getDuration() * 0.3,
+                    end: waveSurferRef.current.getDuration() * 0.7,
+                    drag: true,
+                    resize: true
+                });
+            }
+
+    }
+    }
+
     const handleStop= () =>{
         if(waveSurferRef.current){
             waveSurferRef.current.stop()
@@ -188,7 +242,7 @@ const Audio = () =>{
                     <button onClick={handleStop} className="control-button stop-button">
                     < BsFillStopFill/>
                     </button>
-                    <button className="control-button trim-button">
+                    <button className="control-button trim-button" onClick={handleTrim}>
                         <BsScissors/>
                     </button>
                     <button onClick={handleSkipForward} className="control-button">
