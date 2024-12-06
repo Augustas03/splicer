@@ -49,11 +49,12 @@ const Audio = () =>{
         //so entire wavesurfer instance will all properties and methods
         const timeline = TimelinePlugin.create({
             container: timelineRef.current,
-            primaryColor: '#9CA3AF',
-            secondaryColor: '#4B5563',
-            primaryFontColor: '#9CA3AF',
-            secondaryFontColor: '#4B5563',
-            height: 20,
+            primaryFontColor: '#FFFFFF',
+            secondaryFontColor: '#FFFFFF',
+            primaryColor: '#34374B',
+            secondaryColor: '#34374B',
+            timeInterval: 15,
+            height: 20
         });
 
         // Initialize regions plugin for selection functionality
@@ -95,7 +96,6 @@ const Audio = () =>{
             waveSurferRef.current.addRegion({
                 start: waveSurferRef.current.getDuration() * 0.3,
                 end: waveSurferRef.current.getDuration() * 0.7,
-                color: 'hsla(265, 100%, 86%, 0.4)',
                 drag: true,
                 resize: true
             });

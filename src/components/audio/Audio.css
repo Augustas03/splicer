@@ -47,7 +47,12 @@
   width: 100%;
   padding: 0 1rem;
   margin-top: -1rem;
-  color: #9CA3AF !important;
+}
+
+/* Override wavesurfer timeline text color */
+.timeline-container .wavesurfer-timeline text {
+  color: #FFFFFF !important;
+  fill: #FFFFFF !important;  
 }
 
 .time-display {
@@ -56,7 +61,7 @@
   width: 100%;
   padding: 0 1rem;
   margin: 1rem 0;
-  color: #9CA3AF;
+  color: #FFFFFF !important;
   font-family: monospace;
   font-size: 0.875rem;
 }
