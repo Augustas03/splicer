@@ -90,7 +90,9 @@
 
 .play-button,
 .stop-button,
-.trim-button {
+.trim-button
+.revert-button,
+.reset-button {
   background: #191b28;
   border-radius: 2rem;
   padding: 0.8rem;
@@ -105,6 +107,16 @@
   border-radius: 2rem;
   padding: 0.8rem;
   box-shadow: inset 11px 11px 22px #0a0b10, inset -11px -11px 22px #282b40;
+}
+
+.premium-button {
+  opacity: 0.5;
+  cursor: not-allowed !important;
+  position: relative;
+}
+
+.premium-button:hover {
+  transform: none;
 }
 
 @media screen and (max-width: 998px) {

@@ -14,7 +14,9 @@ import{
     BsFillPlayFill,
     BsArrowLeft,
     BsPauseFill,
-    BsScissors
+    BsScissors,
+    BsArrowReturnLeft,    
+    BsArrowClockwise
 } from "react-icons/bs"
 
 // Main Audio component for rendering waveform visualization and audio controls
@@ -47,6 +49,12 @@ const Audio = () =>{
  
         //.current gives direct access to whatever is stored in the ref
         //so entire wavesurfer instance will all properties and methods
+
+        //TO-DO:
+        //If trim is called recalc length of audio timeline
+        //if trimmed clip is less than 70sec change to 10 sec intervals
+        //if trimmed clip is less than 30sec to 5 sec intervals
+        //if clip above 60 keep 15sec what we currently have.
         const timeline = TimelinePlugin.create({
             container: timelineRef.current,
             primaryFontColor: '#FFFFFF',
@@ -112,6 +120,10 @@ const Audio = () =>{
 
         // Update current time display during playback
         waveSurferRef.current.on('audioprocess', () => {
+            setCurrentTime(formatTime(waveSurferRef.current.getCurrentTime()));
+        });
+
+        waveSurferRef.current.on('seek', () => {
             setCurrentTime(formatTime(waveSurferRef.current.getCurrentTime()));
         });
 
@@ -228,8 +240,7 @@ const Audio = () =>{
                 {/* Timeline display container */}
                 <div ref={timelineRef} className="timeline-container"></div>
                 <div className="time-display">
-                    <span>{currentTime}</span>
-                    <span>{duration}</span>
+                    <span>{currentTime}/{duration}</span>
                 </div>
                 {/* Player control buttons */}
                 <div className="controls-container">
@@ -244,6 +255,12 @@ const Audio = () =>{
                     </button>
                     <button className="control-button trim-button" onClick={handleTrim}>
                         <BsScissors/>
+                    </button>
+                   <button className="control-button revert-button premium-button" disabled>
+                        <BsArrowReturnLeft/>
+                    </button>
+                    <button className="control-button reset-button premium-button" disabled>
+                        <BsArrowClockwise/> 
                     </button>
                     <button onClick={handleSkipForward} className="control-button">
                         <BsSkipForward/>
