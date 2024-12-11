@@ -1,6 +1,7 @@
 import {useEffect, useRef, useContext, useState} from 'react';
 import {FileContext} from '../../contexts/Context';
 import { useNavigate } from 'react-router-dom';
+import Download from '../Download';
 import WaveSurfer from 'wavesurfer.js';
 import TimelinePlugin from 'wavesurfer.js/dist/plugin/wavesurfer.timeline.min.js';
 import RegionsPlugin from 'wavesurfer.js/dist/plugin/wavesurfer.regions.min.js';
@@ -32,6 +33,7 @@ const Audio = () =>{
     const [isPlaying, setIsPlaying] = useState(false);
     const [currentTime, setCurrentTime] = useState('00:00');
     const [duration, setDuration] = useState('00:00');
+    const [showDownload, setShowDownload] = useState(false);
 
     const {fileURL, setFileURL} = useContext(FileContext)
    
@@ -69,7 +71,7 @@ const Audio = () =>{
             //use DOM element for rendering container
             container: waveFormRef.current,
             waveColor: '#34374B',
-            progressColor: '#F97316',
+            progressColor: '#9d00ff',
             cursorColor: '#0000FF',
             height: 80,
             barWidth: 2,
@@ -174,7 +176,7 @@ const Audio = () =>{
 
                 // Finally, load this new trimmed audio into WaveSurfer to display and play
                 waveSurferRef.current.loadDecodedBuffer(newBuffer);
-                
+                setShowDownload(true)
                 handleTrimmedAudioTimeline(newBuffer);
 
                 //may need to refactor destroy and re-adding of region. 
@@ -237,7 +239,7 @@ const Audio = () =>{
             waveSurferRef.current = WaveSurfer.create({
                 container: waveFormRef.current,
                 waveColor: '#34374B',
-                progressColor: '#F97316',
+                progressColor: '#9d00ff',
                 cursorColor: '#0000FF',
                 height: 80,
                 barWidth: 2,
@@ -318,12 +320,17 @@ const Audio = () =>{
     return (
         <div className="player-container">
             <div className="player-box">
-                <button
+            <button
                     onClick={handleBackNav}
-                    className='control-button back-button'
+                    className='control-button back-button outline'
                 >
                     <BsArrowLeft/>
                 </button>
+                {showDownload && (
+                    <Download
+                    buffer={waveSurferRef.current.backend.buffer}
+                    />
+                )}
                 {/* Waveform visualization container */}
                 <div ref={waveFormRef} className="wave-container"></div>
                 {/* Timeline display container */}
@@ -342,7 +349,7 @@ const Audio = () =>{
                     <button onClick={handleStop} className="control-button stop-button">
                     < BsFillStopFill/>
                     </button>
-                    <button className="control-button trim-button" onClick={handleTrim}>
+                    <button className="control-button trim-button outline" onClick={handleTrim}>
                         <BsScissors/>
                     </button>
                    <button className="control-button revert-button premium-button" disabled>

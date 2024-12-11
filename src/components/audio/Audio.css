@@ -90,13 +90,33 @@
 
 .play-button,
 .stop-button,
-.trim-button
+.trim-button,
+.trim-button {
+  background: #191b28;
+  border-radius: 2rem;
+  padding: 0.8rem;
+  box-shadow: inset 11px 11px 22px #9d00ff, inset -11px -11px 22px #b949ff;
+}
+
 .revert-button,
-.reset-button {
+.reset-button{
   background: #191b28;
   border-radius: 2rem;
   padding: 0.8rem;
   box-shadow: inset 11px 11px 22px #0a0b10, inset -11px -11px 22px #282b40;
+}
+
+.download-button{
+  position: absolute;
+  top: 2rem;
+  right: 2rem;
+  background: rgb(0, 4, 255);
+  border-radius: 2rem;
+  padding: 0.8rem;
+}
+
+.outline{
+  outline: 2px solid rgba(255, 255, 255, 0.8);
 }
 
 .back-button {
@@ -110,7 +130,7 @@
 }
 
 .premium-button {
-  opacity: 0.5;
+  opacity: 0.3;
   cursor: not-allowed !important;
   position: relative;
 }
