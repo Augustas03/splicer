@@ -26,7 +26,8 @@ const Audio = () =>{
     const waveFormRef = useRef(null)
     //this is for storing
     const waveSurferRef = useRef(null)
-    const timelineRef = useRef(null);
+    const timelineRef = useRef(null)
+    const timelinePluginRef = useRef(null)
 
     const [isPlaying, setIsPlaying] = useState(false);
     const [currentTime, setCurrentTime] = useState('00:00');
@@ -50,12 +51,7 @@ const Audio = () =>{
         //.current gives direct access to whatever is stored in the ref
         //so entire wavesurfer instance will all properties and methods
 
-        //TO-DO:
-        //If trim is called recalc length of audio timeline
-        //if trimmed clip is less than 70sec change to 10 sec intervals
-        //if trimmed clip is less than 30sec to 5 sec intervals
-        //if clip above 60 keep 15sec what we currently have.
-        const timeline = TimelinePlugin.create({
+        timelinePluginRef.current = TimelinePlugin.create({
             container: timelineRef.current,
             primaryFontColor: '#FFFFFF',
             secondaryFontColor: '#FFFFFF',
@@ -85,7 +81,7 @@ const Audio = () =>{
             responsive: true,
             hideScrollbar: true,
             minPxPerSec: 100,
-            plugins: [timeline, regions]
+            plugins: [timelinePluginRef.current, regions]
         });
 
         // Load audio file if URL exists
@@ -162,7 +158,7 @@ const Audio = () =>{
             //ac-audiocontext
                 const newBuffer = waveSurferRef.current.backend.ac.createBuffer(
                     originalBuffer.numberOfChannels,  //keep same number of channels 2 for stereo
-                    newSampleLength,            //original length
+                    newSampleLength,                  //original length
                     originalBuffer.sampleRate         //orginal sample rate
                 );
 
@@ -178,6 +174,8 @@ const Audio = () =>{
 
                 // Finally, load this new trimmed audio into WaveSurfer to display and play
                 waveSurferRef.current.loadDecodedBuffer(newBuffer);
+                
+                handleTrimmedAudioTimeline(newBuffer);
 
                 //may need to refactor destroy and re-adding of region. 
                 waveSurferRef.current.regions.destroy()
@@ -196,6 +194,97 @@ const Audio = () =>{
     const handleStop= () =>{
         if(waveSurferRef.current){
             waveSurferRef.current.stop()
+        }
+    }
+
+    const handleTrimmedAudioTimeline = (newBuffer) => {
+        if(waveSurferRef.current){
+            // Calculate new time interval
+            const durationOfAudio = waveSurferRef.current.getDuration();
+            let calculatedTimeInterval = 15;
+    
+            if (durationOfAudio <= 30) {
+                calculatedTimeInterval = 5;
+            } else if (durationOfAudio > 30 && durationOfAudio <= 70) {
+                calculatedTimeInterval = 10;
+            } else if (durationOfAudio > 70 && durationOfAudio <= 200){
+                calculatedTimeInterval = 15;
+            } else if(durationOfAudio > 200 && durationOfAudio <= 600){
+                calculatedTimeInterval = 60;
+            }else{
+                calculatedTimeInterval = 90;
+            }
+            
+    
+            // Destroy the old wavesurfer instance
+            waveSurferRef.current.destroy();
+    
+            // Create new timeline with new interval
+            timelinePluginRef.current = TimelinePlugin.create({
+                container: timelineRef.current,
+                primaryFontColor: '#FFFFFF',
+                secondaryFontColor: '#FFFFFF',
+                primaryColor: '#34374B',
+                secondaryColor: '#34374B',
+                timeInterval: calculatedTimeInterval,
+                height: 20
+            });
+    
+            // Initialize regions plugin
+            const regions = RegionsPlugin.create({});
+    
+            // Recreate WaveSurfer instance
+            waveSurferRef.current = WaveSurfer.create({
+                container: waveFormRef.current,
+                waveColor: '#34374B',
+                progressColor: '#F97316',
+                cursorColor: '#0000FF',
+                height: 80,
+                barWidth: 2,
+                barGap: 2,
+                barHeight: 0.8,
+                barRadius: 2,
+                cursorWidth: 2,
+                normalize: true,
+                responsive: true,
+                hideScrollbar: true,
+                minPxPerSec: 100,
+                plugins: [timelinePluginRef.current, regions]
+            });
+
+            // Ensure only one region exists at a time
+            waveSurferRef.current.on('region-updated', (region) => {
+            const regions = region.wavesurfer.regions.list;
+            const keys = Object.keys(regions);
+            if (keys.length > 1) {
+                regions[keys[0]].remove();
+            }
+            });
+
+            // Update current time display during playback
+            waveSurferRef.current.on('audioprocess', () => {
+                setCurrentTime(formatTime(waveSurferRef.current.getCurrentTime()));
+            });
+
+            waveSurferRef.current.on('seek', () => {
+            setCurrentTime(formatTime(waveSurferRef.current.getCurrentTime()));
+            });
+
+            // Update play/pause state
+            waveSurferRef.current.on('play', () => setIsPlaying(true));
+            waveSurferRef.current.on('pause', () => setIsPlaying(false));
+
+            // Load the current audio buffer
+            waveSurferRef.current.loadDecodedBuffer(newBuffer);
+
+            setDuration(formatTime(waveSurferRef.current.getDuration()));
+
+            // Cleanup on component unmount
+            return () => {
+                if (waveSurferRef.current) {
+                    waveSurferRef.current.destroy();
+                }
+            };    
         }
     }
 
