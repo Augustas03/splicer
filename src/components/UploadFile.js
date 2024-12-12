@@ -1,124 +1,170 @@
- import { useContext, useRef, useState } from 'react'
- import { useNavigate } from 'react-router-dom'
- import  {FileContext}  from '../contexts/Context'
+import { useContext, useRef, useState } from "react";
+import { useNavigate } from "react-router-dom";
+import { FileContext } from "../contexts/Context";
 
-const UploadFile = () =>{
-    //navigate to /edit if success
-    const navigate = useNavigate()
-    const fileInputRef = useRef(null)
-    const { setFileURL } = useContext(FileContext)
-     //state for drag status
-    const [isDragging, setIsDragging] = useState(false)
-    
-    //function that handles any file uploaded directly or dropped
-    const processFile = (file) => {
-        // Safety check - if no file, exit the function
-        if(!file){
-            console.log("file empty")
-            return
-        }
-         //try create url and set the file
-        try{
-            const fileURL = URL.createObjectURL(file)
-            setFileURL(fileURL)
-            navigate('/edit')
-        }catch(error){
-            console.log(error)
-        }
+const UploadFile = () => {
+  const navigate = useNavigate();
+  const fileInputRef = useRef(null);
+  const { setFileURL } = useContext(FileContext);
+
+  // State for drag status
+  const [isDragging, setIsDragging] = useState(false);
+  const [isProcessing, setIsProcessing] = useState(false); // Track processing state
+
+  // This function handles file upload directly and separately from the "Processing" logic.
+  const handleFileUpload = (e) => {
+    const selectedFile = e.target.files[0];
+    if (selectedFile) {
+      startProcessing(selectedFile);
     }
+  };
 
-    const handleFileUpload = (e) =>{
-        //we need to get the file .target
-        const selectedFile = e.target.files[0]
-        processFile(selectedFile)
+  // Separate function to handle the processing and set the processing state
+  const startProcessing = (file) => {
+    setIsProcessing(true); // Show "Processing..." state
+    // Simulate a delay for file processing (e.g., 2 seconds)
+    setTimeout(() => {
+      processFile(file);
+    }, 2000); // 2-second delay
+  };
+
+  // Actual file processing function
+  const processFile = (file) => {
+    try {
+      const fileURL = URL.createObjectURL(file);
+      setFileURL(fileURL);
+      navigate("/edit");
+    } catch (error) {
+      console.log("Error processing file:", error);
+    } finally {
+      setIsProcessing(false); // Hide "Processing..." state after processing
     }
+  };
 
-    //drag drop functionality
-    //later remove logs!!!
-    //useful for styling
-    const handleDragIn = (e) =>{
-        //stopPropagation is like saying stops here dont tell my parents
-        //which could be other nested divs etc.
-        e.preventDefault()
-        e.stopPropagation()
-        console.log("dropped inside is called")
-        setIsDragging(true)
+  // Drag-and-drop functionality
+  const handleDragIn = (e) => {
+    e.preventDefault();
+    e.stopPropagation();
+    setIsDragging(true);
+  };
+
+  const handleDragOut = (e) => {
+    e.preventDefault();
+    e.stopPropagation();
+    setIsDragging(false);
+  };
+
+  const handleDragHover = (e) => {
+    e.preventDefault();
+    e.stopPropagation();
+  };
+
+  const handleDrop = (e) => {
+    e.preventDefault();
+    e.stopPropagation();
+    setIsDragging(false);
+    const droppedFile = e.dataTransfer.files[0];
+    if (droppedFile) {
+      startProcessing(droppedFile); // Trigger processing for the dropped file
     }
-    const handleDragOut = (e) =>{
-        e.preventDefault()
-        e.stopPropagation()
+  };
 
-        setIsDragging(false)
-        console.log("draggedout is called")
-    } 
-    //Fires nonstop while a file is being dragged over the drop zone
-    const handleDragHover = (e) =>{
-        e.preventDefault()
-        e.stopPropagation()
-        
-        console.log("hovering...")
-    }   
-    const handleDrop = (e) =>{
-        e.preventDefault()
-        e.stopPropagation()
-        setIsDragging(false)
+  return (
+    <main className="flex justify-center items-center">
+      <section className="w-full max-w-sm">
+        {/* Drag-and-Drop Zone */}
+        <div
+          onDragEnter={handleDragIn}
+          onDragLeave={handleDragOut}
+          onDragOver={handleDragHover}
+          onDrop={handleDrop}
+          style={{
+            border: isProcessing
+              ? "none"
+              : isDragging
+              ? "1.5px dashed "
+              : "1px dashed gray",
+            padding: "40px",
+            textAlign: "center",
+            cursor: isProcessing ? "not-allowed" : "pointer", // Disable cursor while processing
+          }}
+          className={`flex flex-col items-center justify-center w-full h-30 border-2 border-dashed rounded-lg bg-white-400  dark:bg-white-100 dark:hover:bg-purple-100 dark:border-white-200  transition-all duration-300 hover:opacity-75 ${
+            isProcessing ? "opacity-100" : ""
+          }`} // Hide drop zone effects while processing
+          onClick={() => !isProcessing && fileInputRef.current.click()} // Disable click while processing
+        >
+          {/* Show Processing Button only when processing */}
+          {isProcessing ? (
+            <button
+              type="button"
+              className="bg-indigo-500 text-white px-4 py-2 mt-4 rounded-md flex items-center justify-center cursor-not-allowed"
+              disabled
+            >
+              <svg className="animate-spin h-5 w-5 mr-3" viewBox="0 0 24 24">
+                <circle
+                  cx="12"
+                  cy="12"
+                  r="10"
+                  stroke="currentColor"
+                  strokeWidth="4"
+                  fill="none"
+                  className="opacity-25"
+                />
+                <path
+                  fill="currentColor"
+                  d="M4 12a8 8 0 018-8V4a10 10 0 00-10 10h2z"
+                  className="opacity-75"
+                />
+              </svg>
+              Uploading...
+            </button>
+          ) : (
+            <>
+              {/* Icon and Instructions */}
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                className="w-12 h-12 mb-4 text-black dark:text-black"
+              >
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  strokeWidth="2"
+                  d="M13 13h3a3 3 0 0 0 0-6h-.025A5.56 5.56 0 0 0 16 6.5 5.5 5.5 0 0 0 5.207 5.021C5.137 5.017 5.071 5 5 5a4 4 0 0 0 0 8h2.167M10 15V6m0 0L8 8m2-2 2 2"
+                />
+              </svg>
+              <p className="mb-2 text-sm text-black dark:text-black">
+                <span className="font-semibold">Click to upload</span> or drag
+                and drop
+              </p>
+              <p className="text-xs text-black dark:text-black">
+                SVG, PNG, JPG or GIF (MAX. 800x400px)
+              </p>
+            </>
+          )}
+          <input
+            id="dropzone-file"
+            type="file"
+            className="hidden"
+            ref={fileInputRef}
+            onChange={handleFileUpload}
+          />
 
-        const droppedFile = e.dataTransfer.files[0]
-        processFile(droppedFile)
-        console.log("file dropped")
-    }
-    
-    return (
-        <main className="flex justify-center items-center">
-          <section className="w-full max-w-sm">
-            {/* Drag-and-Drop Zone */}
-            <div
-              onDragEnter={handleDragIn}
-              onDragLeave={handleDragOut}
-              onDragOver={handleDragHover}
-              onDrop={handleDrop}
-              style={{
-                border: isDragging ? '2px solid blue' : '2px solid black',
-                padding: '20px'
-            }}>
-              {/* Split Button - Choose File and Dropdown */}
-              <div className="flex justify-between items-center space-x-4">
-                {/* Choose File Button */}
-                <button
-                  onClick={() => fileInputRef.current.click()}
-                  type="button"
-                  className="transform hover:translate-y-[-5px] transition-all duration-300
-                 bg-blue-500 px-8 pb-2 pt-2.5 text-lg font-medium uppercase leading-normal
-                 text-white flex items-center rounded hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-500"
-                >
-                  <svg
-                    xmlns="http://www.w3.org/2000/svg"
-                    viewBox="0 0 24 24"
-                    fill="currentColor"
-                    className="mr-2 h-5 w-5"
-                  >
-                    <path
-                      fillRule="evenodd"
-                      d="M19.5 21a3 3 0 003-3V9a3 3 0 00-3-3h-5.379a.75.75 0 01-.53-.22L11.47 3.66A2.25 2.25 0 009.879 3H4.5a3 3 0 00-3 3v12a3 3 0 003 3h15zm-6.75-10.5a.75.75 0 00-1.5 0v4.19l-1.72-1.72a.75.75 0 00-1.06 1.06l3 3a.75.75 0 001.06 0l3-3a.75.75 0 10-1.06-1.06l-1.72 1.72V10.5z"
-                      clipRule="evenodd"
-                    />
-                  </svg>
-                  Choose File
-                </button>
-              </div>
-    
-              {/* Hidden File Input */}
-              <input
-                type="file"
-                ref={fileInputRef}
-                id="file"
-                className="hidden"
-                accept="audio/*"
-                onChange={handleFileUpload}
-              />
-            </div>
-          </section>
-        </main>
-      );
-}
-export default UploadFile
+          {/* Hidden File Input */}
+          <input
+            type="file"
+            ref={fileInputRef}
+            id="file"
+            className="hidden"
+            accept="audio/*"
+            onChange={handleFileUpload}
+          />
+        </div>
+      </section>
+    </main>
+  );
+};
+
+export default UploadFile;
