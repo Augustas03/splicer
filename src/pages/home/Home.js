@@ -3,26 +3,19 @@ import UploadFile from "../../components/UploadFile";
 import "./Home.css";
 import Header from "../Header";
 
+
 function Home() {
   return (
-    <div className="relative h-screen bg-gray-100 text-black font-parkinsans">
+    <div className="relative text-black font-parkinsans">
       {/* Background Image with Blue Tint */}
       <div
-        className="absolute inset-0 bg-cover bg-center z-0"
+        className="absolute inset-0  bg-center z-0"
         style={{
         }}
       >
         <div className="absolute inset-0 bg-white-100 opacity-50 z-0"></div>
       </div>
 
-      <div className="absolute inset-0 z-10 bg-gray-50 min-h-screen flex items-center justify-center px-16 overflow-hidden">
-        <div className="relative w-full max-w-lg">
-          {/* These absolute elements should not overflow horizontally */}
-          <div className="absolute top-0 left-0 w-72 h-72 bg-purple-300 rounded-full mix-blend-multiply filter blur-xl opacity-80 animate-blob"></div>
-          <div className="absolute top-0 right-0 w-72 h-72 bg-yellow-300 rounded-full mix-blend-multiply filter blur-xl opacity-80 animate-blob animation-delay-2000"></div>
-          <div className="absolute bottom-0 left-0 w-72 h-72 bg-pink-300 rounded-full mix-blend-multiply filter blur-xl opacity-80 animate-blob animation-delay-4000"></div>
-        </div>
-      </div>
 
       {/* Header */}
       <div>
@@ -30,31 +23,37 @@ function Home() {
       </div>
 
       {/* Main Content */}
-      <div className="relative z-10 flex flex-col items-center justify-start pt-40 mt- px-10 min-h-screen overflow-y-auto">
+      <div className="relative z-10 flex flex-col items-center justify-start pt-40 mt-5 px-10 overflow-y-auto font-poppins">
       <div className="text-left font-extrabold text-3xl md:text-4xl bg-clip-text text-black">
-          Time To Unleash Your Creativity{" "}
-          <span className="text-indigo-500 inline-flex flex-col h-[calc(theme(fontSize.3xl)*theme(lineHeight.tight))] md:h-[calc(theme(fontSize.4xl)*theme(lineHeight.tight))] overflow-hidden">
-            <ul className="block animate-text-slide-5 text-left leading-tight space-y-10 [&_li]:block">
+          <h1>Time To Unleash Your Creativity{" "}</h1>
+        </div>
+        <span className=" mt-10 text-right inline-flex flex-col h-[calc(theme(fontSize.3xl)*theme(lineHeight.tight))] md:h-[calc(theme(fontSize.4xl)*theme(lineHeight.tight))] overflow-hidden">
+            <ul className="block text-hero animate-text-slide-5 text-left leading-tight space-y-10 [&_li]:block font-poppins">
+              <li>Cut</li>
               <li>Edit</li>
-              <li>Mix</li>
-              <li aria-hidden="true">Produce Like a Pro</li>
+              <li aria-hidden="true">Mix</li>
             </ul>
           </span>
+        
+        {/* Hero Banner */}
+        <div className="flex justify-center mt-5">
+          <img 
+            src="herobanner.png" 
+            alt="Hero Banner" 
+            className="w-auto h-auto"
+          />
         </div>
-        <h3 className="text-black text-2xl font-normal mb-10 text-center">
-          Perfect Your Sounds
-        </h3>
 
         {/* Upload File as a large button */}
-        <div className="text-white cursor-pointer transition-all">
+        <div className="text-white cursor-pointer transition-all mt-7">
           <UploadFile />
         </div>
         
 
         {/* Feature Boxes */}
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 mt-10 pt-60 mb-0">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 pt-20 mb-0">
           {/* Fast MP3 Cutter */}
-          <div className="transform hover:bg-indigo-300 transition duration-500 hover:scale-95 items-center bg-white shadow-md p-6 rounded-lg text-center">
+          <div className="transform hover:bg-purple-100 transition duration-500 hover:scale-95 items-center bg-gray-100 shadow-md p-6 rounded-lg text-center max-w-xs mx-auto">
             <div className="text-purple-500 mb-3">
               <svg
                 xmlns="http://www.w3.org/2000/svg"
@@ -81,7 +80,7 @@ function Home() {
           </div>
 
           {/* User-friendly Tool */}
-          <div className="transform hover:bg-indigo-300 transition duration-500 hover:scale-95 items-center bg-white shadow-md p-6 rounded-lg text-center">
+          <div className="transform hover:bg-purple-100 transition duration-500 hover:scale-95 items-center bg-gray-100 shadow-md p-6 rounded-lg text-center max-w-xs mx-auto">
             <div className="text-purple-500 mb-3">
               <svg
                 xmlns="http://www.w3.org/2000/svg"
@@ -108,7 +107,7 @@ function Home() {
           </div>
 
           {/* Completely Online */}
-          <div className="transform hover:bg-indigo-300 transition duration-500 hover:scale-95 items-center bg-white shadow-md p-6 rounded-lg text-center">
+          <div className="transform hover:bg-purple-100 transition duration-500 hover:scale-95 items-center bg-gray-100 shadow-md p-6 rounded-lg text-center max-w-xs mx-auto">
             <div className="text-purple-500 mb-3">
               <svg
                 xmlns="http://www.w3.org/2000/svg"
@@ -125,7 +124,7 @@ function Home() {
                 />
               </svg>
             </div>
-            <h4 className="text-lg font-semibold text-black mb-3">
+            <h4 className="text-lg font-semibold text-black mb-3 max-w-xs mx-auto">
               Completely Online
             </h4>
             <p>
@@ -135,7 +134,7 @@ function Home() {
           </div>
 
           {/* More Settings */}
-          <div className="transform hover:bg-indigo-300 transition duration-500 hover:scale-95 items-center bg-white shadow-md p-6 rounded-lg text-center">
+          <div className="transform hover:bg-purple-100 transition duration-500 hover:scale-95 items-center bg-gray-100 shadow-md p-6 rounded-lg text-center max-w-xs mx-auto">
             <div className="text-purple-500 mb-3">
               <svg
                 xmlns="http://www.w3.org/2000/svg"
@@ -157,7 +156,7 @@ function Home() {
                 />
               </svg>
             </div>
-            <h4 className="text-lg font-semibold text-black mb-3">
+            <h4 className="text-lg font-semibold text-black mb-3 max-w-xs mx-auto">
               More Settings
             </h4>
             <p>
@@ -167,7 +166,7 @@ function Home() {
           </div>
 
           {/* All Formats */}
-          <div className="transform hover:bg-indigo-300 transition duration-500 hover:scale-95 items-center bg-white shadow-md p-6 rounded-lg text-center">
+          <div className="transform hover:bg-purple-100 transition duration-500 hover:scale-95 items-center bg-gray-100 shadow-md p-6 rounded-lg text-center max-w-xs mx-auto">
             <div className="text-purple-500 mb-3">
               <svg
                 xmlns="http://www.w3.org/2000/svg"
@@ -194,7 +193,7 @@ function Home() {
           </div>
 
           {/* Secure */}
-          <div className="transform hover:bg-indigo-300 transition duration-500 hover:scale-95 items-center bg-white shadow-md p-6 rounded-lg text-center">
+          <div className="transform hover:bg-purple-100 transition duration-500 hover:scale-95 items-center bg-gray-100 shadow-md p-6 rounded-lg text-center max-w-xs mx-auto">
             <div className="text-purple-500 mb-3">
               <svg
                 xmlns="http://www.w3.org/2000/svg"
@@ -218,8 +217,55 @@ function Home() {
             </p>
           </div>
         </div>
+
+              {/* Trim Audio Section */}
+        <div className="relative z-10 flex flex-col items-center mt-20 mb-10 px-5 text-center">
+          <h2 className="text-2xl font-bold text-black mb-4">Trim Audio with Splicer</h2>
+          <p className="text-gray-700 max-w-[900px] mt-5 text-left">
+            Splicer is your go-to tool for creating ringtones or cutting audio effortlessly. Whether you're trimming an MP3 or fine-tuning a sound clip, Splicer makes it simple and intuitive—no advanced editing skills required.
+          </p>
+          <p className="text-gray-700 mt-4 max-w-[900px] mt-5 text-left">
+            The best part? Your audio retains its original high-quality output, even after edits. It's fast, secure, and perfect for unleashing your creativity. Give Splicer a try and elevate your audio editing game!
+          </p>
+        </div>
+
+         {/* Banner */}
+         <div className="flex justify-center mb-20">
+          <img 
+            src="cutaudio.png" 
+            alt="Cut Audio" 
+            className="w-auto h-auto shadow-lg rounded-lg transform transition duration-300 hover:scale-105 hover:-translate-y-2"
+          />
+        </div>
+
+       
+         <div className="relative z-10 flex flex-col items-center mt-5 mb-10 px-5 text-center">
+          <h2 className="text-2xl font-bold text-black mb-4">Cut any audio file</h2>
+          <p className="text-gray-700 max-w-[900px] mt-5 text-left">
+            Just mark the beginning and ending of your audio and your done!
+          </p>
+        </div>
+
+         <div className="flex justify-center mb-20">
+          <img 
+            src="audio.png" 
+            alt="Cut Audio" 
+            className="max-w-[1000] h-auto shadow-lg rounded-lg transform transition duration-300 hover:scale-105 hover:-translate-y-2"
+          />
+        </div>
+
       </div>
+
+      <footer className="bg-gray-100 py-4 mt-10">
+      <div className="text-center text-gray-700 font-poppins">
+        © 2025 Splicer. All rights reserved.
+      </div>
+    </footer>
     </div>
+
+    
+
+    
   );
 }
 

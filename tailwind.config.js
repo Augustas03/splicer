@@ -9,6 +9,9 @@
       fontFamily: {
         parkinsans: ["Parkinsans", "sans-serif"], // Add Parkinsans font
       },
+      fontFamily: {
+        poppins: ['Poppins', 'sans-serif'],
+      },
       animation: {
         blob: "blob 7s infinite", // Add blob animation
         "text-slide-2":

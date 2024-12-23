@@ -21,13 +21,13 @@ const Header = () => {
     <header>
       <nav>
   {/* Header */}
-  <div className="flex justify-between items-center p-4 bg-transparent shadow-md fixed top-0 left-0 right-0 z-20 backdrop-blur-md">
+  <div className="h-17 flex justify-between items-center p-4 bg-white/80 backdrop-blur-md fixed top-0 left-0 right-0 z-30 border-b border-black-500 shadow font-poppins">
 
     {/* Logo in the top-left */}
     <img
       src="logo.png"
       alt="Logo"
-      className="h-20 w-auto z-40 transition duration-300 transform hover:scale-105 cursor-pointer shadow-purple"
+      className="h-24 w-auto z-40 transition duration-300 transform hover:scale-105 cursor-pointer"
       onClick={handleRouteBack}
     />
 
@@ -36,16 +36,17 @@ const Header = () => {
             {/* Login Button */}
             <button
               onClick={navigateToLogin}
-              className="transform hover:translate-y-[-5px] transition-all duration-300 bg-grey-500 px-8 pb-2 pt-2.5 text-lg font-medium uppercase leading-normal text-black rounded outline-none focus:ring-2"
+              className="transform hover:translate-y-[-5px]  border-none transition-all duration-300 bg-grey-500 px-8 pb-2 pt-2.5 text-lg font-medium uppercase leading-normal text-black rounded outline-none focus:ring-2"
             >
               Login
             </button>
             {/* Signup Button */}
             <button
               onClick={navigateToSignup}
-              className="transform hover:translate-y-[-5px] transition-all duration-300 bg-blue-500 px-8 pb-2 pt-2.5 text-lg font-medium uppercase leading-normal text-white rounded outline-none focus:ring-2"
+              style={{ backgroundColor: "#8C52FF" }}
+              className="transform hover:translate-y-[-5px]  border-none transition-all duration-300 px-8 pb-2 pt-2.5 text-lg font-medium uppercase leading-normal text-white rounded outline-none focus:ring-2"
             >
-              Signup
+              Sign up
             </button>
           </div>
         </div>
