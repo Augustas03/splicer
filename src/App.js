@@ -40,12 +40,13 @@ function App() {
                 <Home />
               </DefaultLayout>
             } />
-            <Route path="/users" element={
+            {/* userslayout.js for both pages */}
+            <Route path="/users" element={ 
               <DefaultLayout>
                 <UsersLayout />
               </DefaultLayout>
             }>
-              <Route index element={<Navigate to="/users/login" replace />} /> {/* Redirect to login by default */}
+              <Route index element={<Navigate to="/users/login" replace />} /> {/* duplicate code */}
               <Route path="login" element={<Login />} />
               <Route path="signup" element={<Signup />} />
             </Route>

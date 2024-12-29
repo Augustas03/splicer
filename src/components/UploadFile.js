@@ -1,6 +1,7 @@
 import { useContext, useRef, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { FileContext } from "../contexts/Context";
+import './UploadFile.css'; 
 
 const UploadFile = () => {
   const navigate = useNavigate();
@@ -71,7 +72,10 @@ const UploadFile = () => {
 
   return (
     <main className="flex justify-center items-center">
-      <section className="w-full max-w-sm">
+      <section className="w-full max-w-lg p-6 bg-white shadow-2xl rounded-lg">
+        {/* Header */}
+        <h1 className="text-2xl font-bold text-center mb-6 text-gray-800">Upload Your Audio File</h1>
+        
         {/* Drag-and-Drop Zone */}
         <div
           onDragEnter={handleDragIn}
@@ -82,13 +86,13 @@ const UploadFile = () => {
             border: isProcessing
               ? "none"
               : isDragging
-              ? "1.5px dashed "
-              : "1px dashed gray",
-            padding: "40px",
+              ? "dashed"
+              : "2px dashed blueviolet",
+            padding: "30px",
             textAlign: "center",
             cursor: isProcessing ? "not-allowed" : "pointer", // Disable cursor while processing
           }}
-          className={`flex flex-col items-center justify-center w-full h-30 border-2 border-dashed rounded-lg bg-white-400  dark:bg-white-100 dark:hover:bg-purple-100 dark:border-white-200  transition-all duration-300 hover:opacity-75 ${
+          className={`flex flex-col items-center justify-center w-full h-40 border-2 border-dashed rounded-lg bg-purple-100 dark:bg-white-100 dark:border-white-200 transition-all duration-300 hover:opacity-75 ${
             isProcessing ? "opacity-100" : ""
           }`} // Hide drop zone effects while processing
           onClick={() => !isProcessing && fileInputRef.current.click()} // Disable click while processing
@@ -126,7 +130,7 @@ const UploadFile = () => {
                 viewBox="0 0 24 24"
                 fill="none"
                 stroke="currentColor"
-                className="w-12 h-12 mb-4 text-black dark:text-black"
+                className="w-12 h-12 mb-4 text-purple-500"
               >
                 <path
                   strokeLinecap="round"
@@ -139,19 +143,9 @@ const UploadFile = () => {
                 <span className="font-semibold">Click to upload</span> or drag
                 and drop
               </p>
-              <p className="text-xs text-black dark:text-black">
-                SVG, PNG, JPG or GIF (MAX. 800x400px)
-              </p>
             </>
           )}
-          <input
-            id="dropzone-file"
-            type="file"
-            className="hidden"
-            ref={fileInputRef}
-            onChange={handleFileUpload}
-          />
-
+  
           {/* Hidden File Input */}
           <input
             type="file"
