@@ -6,7 +6,7 @@ import Signup from './components/Signup';
 import Header from './pages/Header';
 import UsersLayout from './layouts/UsersLayout';
 import Edit from './pages/edit/Edit';
-import Loader from './components/Loader'; // Import the Loader component
+import Loader from './components/animation/Loader'; // Import the Loader component
 
 function App() {
   const [isLoading, setIsLoading] = useState(true); // Track loading state

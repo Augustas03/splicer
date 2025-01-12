@@ -1,7 +1,7 @@
 import {useEffect, useRef, useContext, useState} from 'react';
-import {FileContext} from '../../contexts/Context';
+import {FileContext} from '../../contexts/FileContext';
 import { useNavigate } from 'react-router-dom';
-import Download from '../Download';
+import Download from '../download/Download';
 import WaveSurfer from 'wavesurfer.js';
 import TimelinePlugin from 'wavesurfer.js/dist/plugin/wavesurfer.timeline.min.js';
 import RegionsPlugin from 'wavesurfer.js/dist/plugin/wavesurfer.regions.min.js';

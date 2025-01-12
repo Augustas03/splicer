@@ -2,7 +2,7 @@ import React from 'react';
 import ReactDOM from 'react-dom/client';
 import './index.css';
 import App from './App';
-import { FileContextProvider } from './contexts/Context'
+import { FileContextProvider } from './contexts/FileContext'
 import './index.css'; 
 
 const root = ReactDOM.createRoot(document.getElementById('root'));

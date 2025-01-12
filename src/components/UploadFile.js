@@ -1,7 +1,6 @@
 import { useContext, useRef, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { FileContext } from "../contexts/Context";
-import './UploadFile.css'; 
+import { FileContext } from "../contexts/FileContext";
 
 const UploadFile = () => {
   const navigate = useNavigate();
