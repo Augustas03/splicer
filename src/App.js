@@ -5,8 +5,7 @@ import Header from './pages/Header';
 import UsersLayout from './layouts/UsersLayout';
 import Edit from './pages/edit/Edit';
 import Loader from './components/animation/Loader'; // Import the Loader component
-import  AuthForm from './components/AuthForm'
-import AuthModal from './components/AuthModal'
+import { AuthProvider } from '../src/contexts/AuthContext';
 import 'bootstrap/dist/css/bootstrap.min.css';
 
 function App() {
@@ -35,22 +34,16 @@ function App() {
         
         <section>
           <Routes>
-            {/* Routes with Default Layout */}
+            <AuthProvider>
+              {/* Routes with Default Layout */}
             <Route path="/" element={
               <DefaultLayout>
                 <Home />
               </DefaultLayout>
             } />
-            {/* userslayout.js for both pages */}
-            <Route path="/users" element={ 
-              <DefaultLayout>
-                <UsersLayout />
-              </DefaultLayout>
-            }>
-            </Route>
-
             {/* Routes without Header */}
             <Route path="/edit" element={<Edit />} /> {/* Edit does not have DefaultLayout wrapper */}
+            </AuthProvider>
           </Routes>
         </section>
       </div>
