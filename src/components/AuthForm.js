@@ -1,14 +1,15 @@
-import React from 'react';
-import { useState } from 'react';
+import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { createUserWithEmailAndPassword, sendEmailVerification, signInWithEmailAndPassword } from "firebase/auth";
 import { doc, setDoc, collection } from "firebase/firestore";
 import { auth, db } from "../db/dbConnection"
+import { useAuth } from '../contexts/AuthContext';
 
 const AuthForm = ({ initialHasAccount = true }) => {
   const navigate = useNavigate();
   const [isLoading, setIsLoading] = useState(false);
   const [hasAccount, setHasAccount] = useState(initialHasAccount);
+  const {isLoggedIn, setIsLoggedIn} = useAuth()
 
   const [formData, setFormData] = useState({
     email: "",
@@ -90,7 +91,7 @@ const AuthForm = ({ initialHasAccount = true }) => {
 
     await sendEmailVerification(user);
     alert("Success! Please verify your email before logging in.");
-
+    window.location.reload()
     navigate("/")
 
     }else{
@@ -99,8 +100,8 @@ const AuthForm = ({ initialHasAccount = true }) => {
         formData.email,
         formData.password
       );
-      window.location.reload();
-      navigate("/")
+  
+      setIsLoggedIn(true);
     }
 
     

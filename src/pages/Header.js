@@ -1,11 +1,13 @@
 import { useNavigate } from "react-router-dom";
 import { useState } from 'react';
 import AuthModal from '../components/AuthModal';
+import { useAuth } from '../contexts/AuthContext';
 
 const Header = () => {
   const navigate = useNavigate();
   const [showModal, setShowModal] = useState(false);
   const [modalType, setModalType] = useState('');
+  const { isLoggedIn } = useAuth();
 
   const handleOpenModal = (type) => {
     console.log(`Open ${type} Modal called`);
@@ -23,6 +25,10 @@ const Header = () => {
     navigate("/");
   };
 
+  const handleUserPage = () => {
+
+  }
+
   return (
     <header>
       <nav>
@@ -33,8 +39,13 @@ const Header = () => {
             className="h-24 w-auto z-40 transition duration-300 transform hover:scale-105 cursor-pointer"
             onClick={handleRouteBack}
           />
-
-          <div className="flex space-x-4 z-20">
+        {isLoggedIn? 
+          <img
+            src="userTab.png"
+            height={70}
+            width={70}
+            onClick={handleUserPage}/>
+         : <div className="flex space-x-4 z-20">
             <button
               onClick={() => handleOpenModal('login')}
               style={{ backgroundColor: "#8C52FF" }}
@@ -49,15 +60,16 @@ const Header = () => {
             >
               Sign up
             </button>
-          </div>
+          </div> }
+          
         </div>
       </nav>
 
-      <AuthModal 
+      {isLoggedIn? null : <AuthModal 
         show={showModal} 
         onHide={handleCloseModal}
         modalType={modalType}
-      />
+      />}
     </header>
   );
 };
