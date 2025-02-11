@@ -4,12 +4,16 @@ import './index.css';
 import App from './App';
 import { FileContextProvider } from './contexts/FileContext'
 import './index.css'; 
+import { AuthProvider } from '../src/contexts/AuthContext';
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
-  <FileContextProvider>
-  <App />
-</FileContextProvider>
+  <AuthProvider>
+    <FileContextProvider>
+      <App />
+    </FileContextProvider>
+  </AuthProvider>
+  
 );
 
 // If you want to start measuring performance in your app, pass a function
