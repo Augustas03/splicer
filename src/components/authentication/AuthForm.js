@@ -2,8 +2,8 @@ import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { createUserWithEmailAndPassword, sendEmailVerification, signInWithEmailAndPassword } from "firebase/auth";
 import { doc, setDoc, collection } from "firebase/firestore";
-import { auth, db } from "../db/dbConnection"
-import { useAuth } from '../contexts/AuthContext';
+import { auth, db } from '../../db/dbConnection'
+import { useAuth } from '../../contexts/AuthContext'
 
 const AuthForm = ({ initialHasAccount = true }) => {
   const navigate = useNavigate();

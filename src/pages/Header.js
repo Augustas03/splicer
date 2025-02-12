@@ -1,6 +1,6 @@
 import { useNavigate } from "react-router-dom";
 import { useState } from 'react';
-import AuthModal from '../components/AuthModal';
+import AuthModal from '../components/authentication/AuthModal'
 import { useAuth } from '../contexts/AuthContext';
 
 const Header = () => {
@@ -25,10 +25,6 @@ const Header = () => {
     navigate("/");
   };
 
-  const handleUserPage = () => {
-
-  }
-
   return (
     <header>
       <nav>
@@ -42,9 +38,10 @@ const Header = () => {
         {isLoggedIn? 
           <img
             src="userTab.png"
+            alt=""
             height={70}
             width={70}
-            onClick={handleUserPage}/>
+            />
          : <div className="flex space-x-4 z-20">
             <button
               onClick={() => handleOpenModal('login')}
@@ -69,7 +66,7 @@ const Header = () => {
         show={showModal} 
         onHide={handleCloseModal}
         modalType={modalType}
-      />}
+      />}  
     </header>
   );
 };
