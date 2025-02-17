@@ -7,10 +7,8 @@
   theme: {
     extend: {
       fontFamily: {
-        parkinsans: ["Parkinsans", "sans-serif"], // Add Parkinsans font
-      },
-      fontFamily: {
-        poppins: ['Poppins', 'sans-serif'],
+        parkinsans: ["Parkinsans", "sans-serif"],
+        poppins: ['Poppins', 'sans-serif'], // Add Parkinsans font
       },
       animation: {
         blob: "blob 7s infinite", // Add blob animation

@@ -1,9 +1,7 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { createUserWithEmailAndPassword, sendEmailVerification, signInWithEmailAndPassword } from "firebase/auth";
-import { doc, setDoc, collection } from "firebase/firestore";
-import { auth, db } from '../../db/dbConnection'
 import { useAuth } from '../../contexts/AuthContext'
+import { passwordValidation, login, signup }  from '../../utils/auth'
 
 const AuthForm = ({ initialHasAccount = true }) => {
   const navigate = useNavigate();
@@ -16,13 +14,7 @@ const AuthForm = ({ initialHasAccount = true }) => {
     password: "",
     confirmPassword: "",
   });
-
-  const [errors, setErrors] = useState({
-    email: "",
-    passwordErrors: [],
-    confirmPassword: "",
-  });
-
+  
   function handleInputChange(event) {
     const inputName = event.target.name;
     const inputValue = event.target.value;
@@ -31,20 +23,6 @@ const AuthForm = ({ initialHasAccount = true }) => {
       ...formData,
       [inputName]: inputValue,
     });
-
-    if (inputName === "confirmPassword") {
-      if (inputValue !== formData.password) {
-        setErrors({
-          ...errors,
-          confirmPassword: "Passwords do not match",
-        });
-      } else {
-        setErrors({
-          ...errors,
-          confirmPassword: "",
-        });
-      }
-    }
   }
 
   const toggleHasAccount = () => {
@@ -53,75 +31,38 @@ const AuthForm = ({ initialHasAccount = true }) => {
 
   async function onSubmit(e) {
     e.preventDefault();
-
-    // Checking if passwords for signup match
+    setIsLoading(true);
+    //Signup mode activated
     if(!hasAccount){
-      if (formData.password !== formData.confirmPassword) {
-        setErrors({
-          ...errors,
-          password: "Passwords do not match",
-        });
-        return;
+      //Checking if passwords match
+      if(passwordValidation(formData)){
+        try{
+          //Calling signup function
+          await signup(formData) 
+          //Redirecting user to homepage after signup to login 
+          window.location.reload()
+        }catch(err){
+          console.error("Full error object:", err);
+          const code = err.code;
+          const message = err.message;
+
+          alert(`Error during sign up: ${message}`);
+          console.log(code, message);
+        }
+      }
+    }else{
+      try{
+        //Attempting to log user in
+        await login(formData);
+        setIsLoggedIn(true);
+      }catch(err){
+        console.error("Full error object:", err);
+        const code = err.code;
+        const message = err.message;
+        alert(`Error during sign up: ${message}`);
+        console.log(code, message);
       }
     }
-    setIsLoading(true);
-
-    //Checking firebase for user or Creating user 
-  try{
-    if(!hasAccount){
-      const userCredential = await createUserWithEmailAndPassword(
-        auth,
-        formData.email,
-        formData.password
-      );
-      const user = userCredential.user;
-
-    const users = collection(db, "users");
-
-    const userData = {
-      uid: user.uid,
-      email: user.email,
-      createdAt: new Date().toISOString(),
-    };
-
-    console.log("About to write user data:", userData);
-    const myDoc = doc(users, user.uid);
-    await setDoc(myDoc, userData);
-    console.log("Successfully wrote to Firestore");
-
-    await sendEmailVerification(user);
-    alert("Success! Please verify your email before logging in.");
-    window.location.reload()
-    navigate("/")
-
-    }else{
-      const userCredential = await signInWithEmailAndPassword(
-        auth,
-        formData.email,
-        formData.password
-      );
-  
-      setIsLoggedIn(true);
-    }
-
-    
-
-  }catch (err) {
-    console.error("Full error object:", err);
-    const code = err.code;
-    const message = err.message;
-
-    if (code === "auth/email-already-in-use") {
-      setErrors({
-        ...errors,
-        email: "Email already in use",
-      });
-    } else {
-      alert(`Error during sign up: ${message}`);
-      console.log(code, message);
-    }
-  }
-
   } 
 
   return (
@@ -177,7 +118,7 @@ const AuthForm = ({ initialHasAccount = true }) => {
             required
             minLength={7}
             pattern="^(?=.*[A-Z]).{7,}$"
-            title="Enter a password that contains atleast 7 characters and 1 uppercase letter"
+            title="Confirm the above password"
           />
         </div>
       )}
