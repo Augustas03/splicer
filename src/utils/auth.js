@@ -1,9 +1,6 @@
-import React, { useState } from "react";
 import { doc, setDoc, collection } from "firebase/firestore";
 import { auth, db } from "../db/dbConnection"
-import { createUserWithEmailAndPassword, sendEmailVerification, signInWithEmailAndPassword } from "firebase/auth";
-
-
+import { createUserWithEmailAndPassword, sendEmailVerification, signInWithEmailAndPassword, signOut } from "firebase/auth";
 
 export async function passwordValidation (formData) {
 
@@ -14,7 +11,6 @@ export async function passwordValidation (formData) {
   }
 }
 
-
 export async function login (formData) {
 
   try{
@@ -23,8 +19,9 @@ export async function login (formData) {
       formData.email,
       formData.password
     );
+    localStorage.setItem('lastLoginTime', Date.now().toString());
+    
 
-    return "200 OK"
   }catch(err){
     console.error("Full error object:", err);
         const code = err.code;
@@ -60,16 +57,24 @@ export async function signup (formData) {
   await sendEmailVerification(user);
   alert("Success! Please verify your email before logging in.");
 
-  return "200 OK"
   }catch(err){
     console.error("Full error object:", err);
     const code = err.code;
     const message = err.message;
-
-     
-      alert(`Error during sign up: ${message}`);
-      console.log(code, message);
-    
+ 
+    alert(`Error during sign up: ${message}`);
+    console.log(code, message);
   }
   
+}
+
+export async function logout() {
+  try {
+    await signOut(auth);
+    localStorage.removeItem('lastLoginTime'); // Clear the login time
+    return true;
+  } catch (error) {
+    console.error("Error during logout:", error);
+    throw error; // Propagate the error to be handled by the calling component
+  }
 }
