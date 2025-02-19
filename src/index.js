@@ -1,9 +1,9 @@
 import React from 'react';
 import ReactDOM from 'react-dom/client';
 import './index.css';
+import './db/dbConnection'
 import App from './App';
 import { FileContextProvider } from './contexts/FileContext'
-import './index.css'; 
 import { AuthProvider } from '../src/contexts/AuthContext';
 
 const root = ReactDOM.createRoot(document.getElementById('root'));

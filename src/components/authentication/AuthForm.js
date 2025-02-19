@@ -53,8 +53,9 @@ const AuthForm = ({ initialHasAccount = true }) => {
     }else{
       try{
         //Attempting to log user in
-        await login(formData);
-        setIsLoggedIn(true);
+        if(await login(formData)){
+          setIsLoggedIn(true);
+        }
       }catch(err){
         console.error("Full error object:", err);
         const code = err.code;
