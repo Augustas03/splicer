@@ -1,10 +1,8 @@
 import React, { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
 import { useAuth } from '../../contexts/AuthContext'
 import { passwordValidation, login, signup }  from '../../utils/auth'
 
 const AuthForm = ({ initialHasAccount = true }) => {
-  const navigate = useNavigate();
   const [isLoading, setIsLoading] = useState(false);
   const [hasAccount, setHasAccount] = useState(initialHasAccount);
   const {isLoggedIn, setIsLoggedIn} = useAuth()

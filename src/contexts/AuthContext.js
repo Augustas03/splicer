@@ -15,18 +15,29 @@ export function AuthProvider({ children }) {
     const auth = getAuth();
 
     useEffect(() => {
-        console.log("Setting up auth listener");
-        const unsubscribe = onAuthStateChanged(auth, (user) => {
-            console.log("Auth state changed:", user ? "User exists" : "No user");
-            setAuthUser(user);
-            setIsLoggedIn(!!user);
+        const unsubscribe = onAuthStateChanged(auth, async (user) => {
+            if (user) {
+                // Check last login time
+                const lastLogin = localStorage.getItem('lastLoginTime');
+                const maxAge = 24 * 60 * 60 * 1000; // 24 hours
+                
+                if (lastLogin && Date.now() - parseInt(lastLogin) > maxAge) {
+                    // Token expired
+                    await auth.signOut();
+                    localStorage.removeItem('lastLoginTime');
+                } else {
+                    // User is valid
+                    setAuthUser(user);
+                    setIsLoggedIn(true);
+                }
+            } else {
+                setAuthUser(null);
+                setIsLoggedIn(false);
+            }
             setLoading(false);
         });
-    
-        return () => {
-            console.log("Cleaning up auth listener");
-            unsubscribe();
-        };
+
+        return () => unsubscribe();
     }, []);
 
     const value = {
