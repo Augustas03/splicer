@@ -32,6 +32,8 @@
   border-radius: 0.8rem;
   background: #191b28;
   box-shadow: inset 11px 11px 22px #0a0b10, inset -11px -11px 22px #282b40;
+  overflow: hidden;
+  position: relative;
 }
 
 .wavesurfer-region {
